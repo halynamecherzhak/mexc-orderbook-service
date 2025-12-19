@@ -83,14 +83,24 @@ npm run start:prod
 ## 📤 Example Console Output
 
 ```
-[14:32:00] REST mid=65432.50 spread=0.12%
-[14:32:05] WS last=65431.10 mid=65432.20 spread=0.11%
-[14:32:10] WS last=65433.00 mid=65433.55 spread=0.09%
-[14:32:15] Average spread(1m)=0.10%
-[14:33:15] REST mid=65434.20 spread=0.13%
-[14:33:20] WS last=65432.80 mid=65433.50 spread=0.12%
-[14:33:25] Average spread(1m)=0.11%
+[10:45:01 PM] Connected to MEXC WebSocket
+[10:45:01 PM] REST mid=88046.93 spread=0.00%
+RAW WS: {"id":1,"code":0,"msg":"Not Subscribed successfully! [spot@public.deals.v3.api@BTCUSDT].  Reason： Blocked! "}
+[10:45:06 PM] REST mid=88057.89 spread=0.00%
+[10:45:06 PM] Average spread(1m)=0.00%
+[10:45:11 PM] REST mid=88063.75 spread=0.01%
+[10:45:11 PM] Average spread(1m)=0.01%
+[10:45:16 PM] REST mid=88083.38 spread=0.00%
+[10:45:16 PM] Average spread(1m)=0.00%
+[10:45:21 PM] REST mid=88083.30 spread=0.00%
+[10:45:21 PM] Average spread(1m)=0.00%
 ```
+
+### WebSocket note
+
+MEXC WebSocket connection is established successfully.
+However, depending on the IP/region, the public deals topic may be blocked by MEXC.
+The implementation follows official documentation and works when access is allowed.
 
 ---
 

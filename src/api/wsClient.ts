@@ -6,16 +6,19 @@ export function connectTicker(symbol: string, onMessage: (price: number) => void
     const ws = new WebSocket(MEXC_API_WS_URL);
 
     ws.on('open', () => {
-        console.log(`[${new Date().toISOString()}] Connected to MEXC WebSocket`);
+        console.log(`[${new Date().toLocaleTimeString()}] Connected to MEXC WebSocket`);
         ws.send(
             JSON.stringify({
                 method: 'SUBSCRIPTION',
                 params: [`${MEXC_WS_DEALS_TOPIC_PREFIX}${symbol}`],
+                id: 1,
             }),
         );
     });
 
     ws.on('message', data => {
+        console.log('RAW WS:', data.toString());
+        
         const msg = JSON.parse(data.toString());
         
         if (msg.d?.deals?.length) {
