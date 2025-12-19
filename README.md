@@ -50,6 +50,9 @@ Where:
 ### Moving Average
 The last 10 spread values are averaged to identify trends.
 
+Note: Order book depth is limited to 5 levels since only the best bid and ask
+are required for mid price and spread calculations.
+
 ---
 
 ## ▶️ How to Run

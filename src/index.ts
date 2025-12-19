@@ -1,15 +1,15 @@
 import { fetchOrderBook } from './api/restClient';
 import { connectTicker } from './api/wsClient';
 import { calculateMid, calculateSpreadPercent, MovingAverage } from './core/calculator';
+import { TRADING_PAIR, MOVING_AVERAGE_SIZE, UPDATE_INTERVAL_MS } from './config/constants';
 
-const SYMBOL = 'BTCUSDT';
-const spreadAvg = new MovingAverage(10);
+const spreadAvg = new MovingAverage(MOVING_AVERAGE_SIZE);
 
 let lastBid = 0;
 let lastAsk = 0;
 
 async function updateOrderBook() {
-    const { bestBid, bestAsk } = await fetchOrderBook(SYMBOL);
+    const { bestBid, bestAsk } = await fetchOrderBook(TRADING_PAIR);
     lastBid = bestBid;
     lastAsk = bestAsk;
 
@@ -24,7 +24,7 @@ async function updateOrderBook() {
     );
 }
 
-connectTicker(SYMBOL, lastPrice => {
+connectTicker(TRADING_PAIR, lastPrice => {
     if (!lastBid || !lastAsk) return;
 
     const mid = calculateMid(lastBid, lastAsk);
@@ -45,6 +45,6 @@ setInterval(async () => {
             .average()
             .toFixed(2)}%`,
     );
-}, 60_000);
+}, UPDATE_INTERVAL_MS);
 
 updateOrderBook();
