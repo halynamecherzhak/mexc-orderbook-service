@@ -1,10 +1,11 @@
-export const MEXC_API_WS_URL = 'wss://wbs.mexc.com/ws';
-export const MEXC_API_BASE_URL = 'https://api.mexc.com';
+export const EXCHANGE_NAME = 'Bitmart';
 
-export const TRADING_PAIR = 'BTCUSDT';
-export const ORDERBOOK_LIMIT = 5;
+export const BITMART_API_REST_URL = 'https://api-cloud.bitmart.com';
+export const BITMART_API_WS_URL = 'wss://ws-manager-compress.bitmart.com/api?protocol=1.1';
 
-export const MEXC_WS_DEALS_TOPIC_PREFIX = 'spot@public.deals.v3.api@';
+export const TRADING_PAIR = 'BTC_USDT';
 
-export const MOVING_AVERAGE_SIZE = 10;
+export const ORDERBOOK_DEPTH = 5;
+
 export const UPDATE_INTERVAL_MS = 60000;
+export const MOVING_AVERAGE_SIZE = 10;

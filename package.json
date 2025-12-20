@@ -1,5 +1,5 @@
 {
-  "name": "mexc-orderbook-service",
+  "name": "bitmart-orderbook-service",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
@@ -10,7 +10,7 @@
     "format": "prettier --write '{src,test}/**/*.ts'"
   },
   "author": "Halyna Mecherzhak",
-  "description": "Node.js service that calculates mid price and spread using MEXC REST and WebSocket APIs",
+  "description": "Node.js service that calculates mid price and spread using BitMart REST and WebSocket APIs",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.13.2",

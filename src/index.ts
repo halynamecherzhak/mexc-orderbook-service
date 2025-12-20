@@ -10,15 +10,21 @@ let lastBid = 0;
 let lastAsk = 0;
 
 async function updateOrderBook() {
-    const { bestBid, bestAsk } = await fetchOrderBook(TRADING_PAIR);
-    lastBid = bestBid;
-    lastAsk = bestAsk;
+    try {
+        const { bestBid, bestAsk } = await fetchOrderBook(TRADING_PAIR);
 
-    const mid = calculateMid(bestBid, bestAsk);
-    const spread = calculateSpreadPercent(bestBid, bestAsk);
-    spreadAvg.add(spread);
+        lastBid = bestBid;
+        lastAsk = bestAsk;
 
-    log(`REST mid=${mid.toFixed(2)} spread=${spread.toFixed(2)}%`);
+        const mid = calculateMid(bestBid, bestAsk);
+        const spread = calculateSpreadPercent(bestBid, bestAsk);
+
+        spreadAvg.add(spread);
+
+        log(`REST mid=${mid.toFixed(2)} spread=${spread.toFixed(2)}%`);
+    } catch (err) {
+        log(`REST error: ${(err as Error).message}`);
+    }
 }
 
 connectTicker(TRADING_PAIR, lastPrice => {

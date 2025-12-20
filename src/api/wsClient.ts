@@ -1,32 +1,37 @@
 import WebSocket from 'ws';
 
-import { MEXC_API_WS_URL, MEXC_WS_DEALS_TOPIC_PREFIX } from '../config/constants';
+import { BITMART_API_WS_URL } from '../config/constants';
 import { log } from '../utils/logger';
 
 export function connectTicker(symbol: string, onMessage: (price: number) => void) {
-    const ws = new WebSocket(MEXC_API_WS_URL);
+    const ws = new WebSocket(BITMART_API_WS_URL);
 
     ws.on('open', () => {
-        log('Connected to MEXC WebSocket');
+        log('Connected to BitMart WebSocket');
 
         ws.send(
             JSON.stringify({
-                method: 'SUBSCRIPTION',
-                params: [`${MEXC_WS_DEALS_TOPIC_PREFIX}${symbol}`],
-                id: 1,
+                op: 'subscribe',
+                args: [`spot/ticker:${symbol}`],
             }),
         );
     });
 
     ws.on('message', data => {
-        log(`RAW WS: ${data.toString()}`);
+        try {
+            const msg = JSON.parse(data.toString());
 
-        const msg = JSON.parse(data.toString());
-
-        if (msg.d?.deals?.length) {
-            const lastPrice = Number(msg.d.deals[0].p);
-            onMessage(lastPrice);
+            if (msg.data?.length) {
+                const lastPrice = Number(msg.data[0].last_price);
+                onMessage(lastPrice);
+            }
+        } catch (err) {
+            log(`WS message parse error: ${(err as Error).message}`);
         }
+    });
+
+    ws.on('error', err => {
+        log(`WebSocket error: ${(err as Error).message}`);
     });
 
     ws.on('close', code => {

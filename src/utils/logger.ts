@@ -13,8 +13,7 @@ function write(message: string) {
 }
 
 export function log(message: string) {
-    //const line = `[${new Date().toISOString()}] ${message}`;
-    const line = `[${new Date().toLocaleTimeString()}] ${message}`;
+    const line = `[${new Date().toISOString()}] ${message}`;
 
     console.log(line);
 
