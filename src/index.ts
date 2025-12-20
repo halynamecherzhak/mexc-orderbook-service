@@ -2,6 +2,7 @@ import { fetchOrderBook } from './api/restClient';
 import { connectTicker } from './api/wsClient';
 import { calculateMid, calculateSpreadPercent, MovingAverage } from './core/calculator';
 import { TRADING_PAIR, MOVING_AVERAGE_SIZE, UPDATE_INTERVAL_MS } from './config/constants';
+import { log } from './utils/logger';
 
 const spreadAvg = new MovingAverage(MOVING_AVERAGE_SIZE);
 
@@ -17,11 +18,7 @@ async function updateOrderBook() {
     const spread = calculateSpreadPercent(bestBid, bestAsk);
     spreadAvg.add(spread);
 
-    console.log(
-        `[${new Date().toLocaleTimeString()}] REST mid=${mid.toFixed(
-            2,
-        )} spread=${spread.toFixed(2)}%`,
-    );
+    log(`REST mid=${mid.toFixed(2)} spread=${spread.toFixed(2)}%`);
 }
 
 connectTicker(TRADING_PAIR, lastPrice => {
@@ -30,21 +27,13 @@ connectTicker(TRADING_PAIR, lastPrice => {
     const mid = calculateMid(lastBid, lastAsk);
     const spread = calculateSpreadPercent(lastBid, lastAsk);
 
-    console.log(
-        `[${new Date().toLocaleTimeString()}] WS last=${lastPrice.toFixed(
-            2,
-        )} mid=${mid.toFixed(2)} spread=${spread.toFixed(2)}%`,
-    );
+    log(`WS last=${lastPrice.toFixed(2)} mid=${mid.toFixed(2)} spread=${spread.toFixed(2)}%`);
 });
 
 setInterval(async () => {
     await updateOrderBook();
 
-    console.log(
-        `[${new Date().toLocaleTimeString()}] Average spread(1m)=${spreadAvg
-            .average()
-            .toFixed(2)}%`,
-    );
+    log(`Average spread(1m)=${spreadAvg.average().toFixed(2)}%`);
 }, UPDATE_INTERVAL_MS);
 
 updateOrderBook();
